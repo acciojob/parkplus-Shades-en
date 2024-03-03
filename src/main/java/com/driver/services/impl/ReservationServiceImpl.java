@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -23,6 +24,50 @@ public class ReservationServiceImpl implements ReservationService {
     ParkingLotRepository parkingLotRepository3;
     @Override
     public Reservation reserveSpot(Integer userId, Integer parkingLotId, Integer timeInHours, Integer numberOfWheels) throws Exception {
+        Optional<User> optionalUser = userRepository3.findById(userId);
+        if(!optionalUser.isPresent()){
+            throw new RuntimeException("Cannot make reservation");
+        }
+        User user = optionalUser.get();
 
+        Optional<ParkingLot> optionalParkingLot = parkingLotRepository3.findById(parkingLotId);
+        if(!optionalParkingLot.isPresent()){
+            throw new RuntimeException("Cannot make reservation");
+        }
+        ParkingLot parkingLot = optionalParkingLot.get();
+
+        Spot bestSpot = null;
+        int minPrice = Integer.MAX_VALUE;
+
+        for(Spot spot: parkingLot.getSpotList()){
+            if(!spot.getOccupied() && isSpotBigEnough(numberOfWheels, spot)){
+                if(spot.getPricePerHour()*timeInHours < minPrice){
+                    bestSpot = spot;
+                    minPrice = spot.getPricePerHour()*timeInHours;
+                }
+            }
+        }
+        if(bestSpot==null){
+            throw new RuntimeException("Cannot make reservation");
+        }
+
+        Reservation reservation = new Reservation();
+        reservation.setSpot(bestSpot);
+        reservation.setUser(user);
+        reservation.setNumberOfHours(timeInHours);
+
+        bestSpot.setOccupied(true);
+        bestSpot.getReservationList().add(reservation);
+
+        user.getReservationList().add(reservation);
+
+        return reservationRepository3.save(reservation);
+    }
+
+    private boolean isSpotBigEnough(Integer numberOfWheels, Spot spot){
+        if(numberOfWheels == 4 && spot.getSpotType()==SpotType.TWO_WHEELER){
+            return false;
+        }
+        else return numberOfWheels <= 4 || spot.getSpotType() == SpotType.OTHERS;
     }
 }

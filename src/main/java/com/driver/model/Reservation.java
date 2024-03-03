@@ -1,5 +1,7 @@
 package com.driver.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -9,10 +11,12 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+//    @JsonIgnore
     @ManyToOne
     @JoinColumn
     private User user;
 
+//    @JsonIgnore
     @ManyToOne
     @JoinColumn
     private Spot spot;

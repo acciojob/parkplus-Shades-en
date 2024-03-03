@@ -1,5 +1,7 @@
 package com.driver.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -8,6 +10,8 @@ public class Spot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+//    @JsonIgnore
     @ManyToOne
     @JoinColumn
     private ParkingLot parkingLot;
