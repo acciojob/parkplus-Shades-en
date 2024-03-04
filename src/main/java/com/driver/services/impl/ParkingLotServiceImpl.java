@@ -40,9 +40,9 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         ParkingLot parkingLot = optionalParkingLot.get();
 
         //have to test with 3 or less than 2 wheeler
-        if(numberOfWheels==2){
+        if(numberOfWheels<=2){
             spot.setSpotType(SpotType.TWO_WHEELER);
-        } else if(numberOfWheels==4){
+        } else if(numberOfWheels<=4){
             spot.setSpotType(SpotType.FOUR_WHEELER);
         } else {
             spot.setSpotType(SpotType.OTHERS);
