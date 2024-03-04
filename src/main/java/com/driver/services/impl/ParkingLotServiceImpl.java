@@ -39,6 +39,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         }
         ParkingLot parkingLot = optionalParkingLot.get();
 
+        //have to test with 3 or less than 2 wheeler
         if(numberOfWheels==2){
             spot.setSpotType(SpotType.TWO_WHEELER);
         } else if(numberOfWheels==4){
@@ -52,9 +53,10 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         spot.setParkingLot(parkingLot);
 
         parkingLot.getSpotList().add(spot);
+        //testing with just saving parking
 
         parkingLotRepository1.save(parkingLot);
-        return spotRepository1.save(spot);
+        return spot;
     }
 
     @Override

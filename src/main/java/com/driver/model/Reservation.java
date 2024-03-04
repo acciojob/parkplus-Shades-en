@@ -11,12 +11,12 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-//    @JsonIgnore
+    @JsonIgnore
     @ManyToOne
     @JoinColumn
     private User user;
 
-//    @JsonIgnore
+    @JsonIgnore
     @ManyToOne
     @JoinColumn
     private Spot spot;

@@ -24,7 +24,7 @@ public class PaymentServiceImpl implements PaymentService {
     public Payment pay(Integer reservationId, int amountSent, String mode) throws Exception {
         PaymentMode paymentMode;
         try {
-            paymentMode = PaymentMode.valueOf(mode);
+            paymentMode = PaymentMode.valueOf(mode.toUpperCase());
         }
         catch(RuntimeException e){
             throw new RuntimeException("Payment mode not detected");
@@ -46,8 +46,11 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setPaymentCompleted(true);
         payment.setReservation(reservation);
 
+        spot.setOccupied(false); //update
+
         reservation.setPayment(payment);
 
+        //next try saving reservation
         return paymentRepository2.save(payment);
     }
 }

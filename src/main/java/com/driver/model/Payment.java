@@ -10,7 +10,7 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-//    @JsonIgnore
+    @JsonIgnore
     @OneToOne
     @JoinColumn
     private Reservation reservation;

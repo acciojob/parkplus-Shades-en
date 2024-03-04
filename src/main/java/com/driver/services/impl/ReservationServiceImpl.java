@@ -61,7 +61,11 @@ public class ReservationServiceImpl implements ReservationService {
 
         user.getReservationList().add(reservation);
 
-        return reservationRepository3.save(reservation);
+        //saving user and spot instead of reservation for bidirectional save
+        userRepository3.save(user);
+        spotRepository3.save(bestSpot);
+
+        return reservation;
     }
 
     private boolean isSpotBigEnough(Integer numberOfWheels, Spot spot){

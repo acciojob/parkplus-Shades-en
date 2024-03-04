@@ -11,7 +11,7 @@ public class Spot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-//    @JsonIgnore
+    @JsonIgnore
     @ManyToOne
     @JoinColumn
     private ParkingLot parkingLot;
